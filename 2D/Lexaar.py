@@ -8,7 +8,7 @@ import win32con
 import time
 import os.path
 import os
-import signal
+import importlib
 
 class MainClass :
 
@@ -88,6 +88,32 @@ class MainClass :
     def setShowMouseCursor(self, value) :
         """Show or not mouse cursor"""
         pygame.mouse.set_visible(value)
+
+    def open_level(self, path) :
+        """Open level defined by a .LEXLVL level"""
+
+        lvl = open(path, 'r')
+        lines = lvl.readlines()
+
+        cutted_lines = list()
+
+        for i in range(len(lines)) :
+            lines[i] = lines[i].replace("\n", "")
+
+        for i in lines :
+            cutted_lines.append(i.split(":"))
+        
+        for commands in cutted_lines :
+            if commands[0] == "background" :
+                self.backGroundImage(commands[1])
+
+            if commands[0] == "class" :
+                arg = commands[1]
+                arg = arg.split(".")
+                print(arg)
+                importlib.import_module(arg[0])
+                commands[1]
+                
 
 
 class LFile(MainClass) :
