@@ -1,0 +1,3 @@
+background:AssetsTest/BNormal.png
+linked-file:lvl2
+event-func:eventLaunch()

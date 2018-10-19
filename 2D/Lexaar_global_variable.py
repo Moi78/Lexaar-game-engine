@@ -28,11 +28,11 @@ MUSIC = 1
 AMBIENT = 2
 PLAYED_ONCE = 3
 
-#All musics
+#All musics TO CLEAR BETWEEN TWO LEVELS
 AudioMusics = []
 AudioSound = []
 
-#Thing to blit() without events
+#Thing to blit() without events TO CLEAR BETWEEN TWO LEVELS
 WithoutEvent = []
 
 #Special keys

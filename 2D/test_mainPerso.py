@@ -11,4 +11,4 @@ class MainChara(Character_2D) :
         Character_2D.eventLaunch(self)
         
         if(Lexaar.MainClass.isKeyPressed(self, ord('H'))) :
-            console.sysPrint((Character_2D.getPosX(self), Character_2D.getPosY(self)), (255,150,0))
+            Lexaar.MainClass.open_level(self, "AssetsTest/Level2.LEXLVL")

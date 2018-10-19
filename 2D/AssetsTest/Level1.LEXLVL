@@ -1,2 +1,3 @@
 background:AssetsTest/Fond.png
-class:test_mainPerso.MainChara
+linked-file:lvl1
+event-func:eventLaunch()

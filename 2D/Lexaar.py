@@ -1,7 +1,7 @@
 from os.path import splitext
-from pygame import*
+import pygame
 from pygame.locals import*
-from Lexaar_global_variable import*
+import Lexaar_global_variable
 from win32api import GetSystemMetrics
 import win32api
 import win32con
@@ -26,6 +26,8 @@ class MainClass :
 
         self.maintenir_process = True
         self.bckg = 0
+        self.lib = None
+        self.level_event_func_name = None
 
     def setName(self, newName) :
         """Set game's name"""
@@ -36,10 +38,10 @@ class MainClass :
         pygame.display.flip()
 
         if(self.bckg != 0) :
-            scr.blit(self.bckg, (0,0))
+            Lexaar_global_variable.scr.blit(self.bckg, (0,0))
             
         if(self.gamestate == "devel"):
-            console.blitMessage()
+            Lexaar_global_variable.console.blitMessage()
         for event in pygame.event.get():
             if event.type == QUIT :
                 self.maintenir_process = False
@@ -47,15 +49,15 @@ class MainClass :
             if event.type == KEYDOWN and event.key == K_ESCAPE :
                 self.maintenir_process = False
                 pygame.quit()
-        if len(WithoutEvent) != 0 :
-            for i in WithoutEvent :
-                scr.blit(i[0], (i[1], i[2]))
+        if len(Lexaar_global_variable.WithoutEvent) != 0 :
+            for i in Lexaar_global_variable.WithoutEvent :
+                Lexaar_global_variable.scr.blit(i[0], (i[1], i[2]))
 
     def backGroundImage(self, pathToImage) :
         """Set background image"""
         self.bckg = pygame.image.load(pathToImage).convert_alpha()
         self.bckg = pygame.transform.scale(self.bckg, (GetSystemMetrics(0),GetSystemMetrics(1)))
-        scr.blit(self.bckg, (0,0))
+        Lexaar_global_variable.scr.blit(self.bckg, (0,0))
 
     def isKeyPressed(self, key) :
         """Return True if chosen key is pressed"""
@@ -92,6 +94,15 @@ class MainClass :
     def open_level(self, path) :
         """Open level defined by a .LEXLVL level"""
 
+        self.level_event_func_name = None
+        self.lib = None
+
+        Lexaar_global_variable.AudioMusics = []
+        Lexaar_global_variable.AudioSound = []
+        Lexaar_global_variable.WithoutEvent = []
+
+        #print(self.level_event_func_name, " ", self.lib)
+
         lvl = open(path, 'r')
         lines = lvl.readlines()
 
@@ -107,12 +118,24 @@ class MainClass :
             if commands[0] == "background" :
                 self.backGroundImage(commands[1])
 
-            if commands[0] == "class" :
+            if commands[0] == "linked-file" :
                 arg = commands[1]
-                arg = arg.split(".")
-                print(arg)
-                importlib.import_module(arg[0])
-                commands[1]
+                self.lib = importlib.import_module(arg)
+
+            if commands[0] == "event-func" :
+                self.level_event_func_name = commands[1]
+
+        #print(self.level_event_func_name, " ", self.lib)
+
+        lvl.close()
+
+    def levelEvent(self) :
+        """Maintain level event"""
+        try :
+            exec("self.lib." + self.level_event_func_name)
+        except NameError:
+            print("Invalid event function name")
+            pass
                 
 
 
@@ -128,7 +151,7 @@ class LFile(MainClass) :
         self.extension = splitext(self.filePath)
         self.extension[1].lower()
 
-        console.sysPrint(self.extension[1], (255,0,0))
+        Lexaar_global_variable.console.sysPrint(self.extension[1], (255,0,0))
 
     def checkExtension(self, extension) :
         """Check file extension"""
