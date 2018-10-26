@@ -1,7 +1,6 @@
 import Lexaar
 from Lexaar_2D_Character import*
 from Lexaar_global_variable import*
-import Lexaar_PlayerMapCollisions
 
 class MainChara(Character_2D) :
     def __init__(self) :
@@ -9,6 +8,3 @@ class MainChara(Character_2D) :
 
     def eventLaunch(self) :
         Character_2D.eventLaunch(self)
-        
-        if(Lexaar.MainClass.isKeyPressed(self, ord('H'))) :
-            Lexaar.MainClass.open_level(self, "AssetsTest/Level2.LEXLVL")

@@ -1,0 +1,26 @@
+{
+    "name": "lexaarfileextension",
+    "displayName": "LexaarFileExtension",
+    "description": "Module for Lexaar game engine",
+    "version": "0.0.1",
+    "publisher": "Mathis",
+    "engines": {
+        "vscode": "^1.28.0"
+    },
+    "categories": [
+        "Programming Languages"
+    ],
+    "contributes": {
+        "languages": [{
+            "id": "lexaar-define-language",
+            "aliases": ["Lexaar Define Language", "lexaar-define-language"],
+            "extensions": [".LEXLVL"],
+            "configuration": "./language-configuration.json"
+        }],
+        "grammars": [{
+            "language": "lexaar-define-language",
+            "scopeName": "",
+            "path": "./syntaxes/lexaar-define-language.tmLanguage.json"
+        }]
+    }
+}

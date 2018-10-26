@@ -2,12 +2,11 @@ import Lexaar
 import pygame
 from pygame.locals import*
 from Lexaar_global_variable import*
-import Lexaar_PlayerMapCollisions
 import win32api
 import win32con
 from threading import Thread
 
-class Character_2D(Lexaar_PlayerMapCollisions.PlayerMapCollision, Lexaar.MainClass) :
+class Character_2D(Lexaar.MainClass) :
     def __init__(self, charaImagePath, spawnx, spawny, key_moveUP = "W", key_moveDOWN = "S", key_moveRIGHT = "D", key_moveLEFT = "A", speed = 5, charaImagePathUP = "", charaImagePathLeft = "", charaImagePathRight = "") :       
         """Class to create a character with inputs some others methods"""
         
@@ -56,7 +55,7 @@ class Character_2D(Lexaar_PlayerMapCollisions.PlayerMapCollision, Lexaar.MainCla
         scr.blit(self.charaImage, self.posPerso)
         self.rect = 0
 
-        self.hurtingedge = False
+        #self.hurtingedge = False
 
     def eventLaunch(self) :
         """Event system"""
@@ -125,19 +124,17 @@ class Character_2D(Lexaar_PlayerMapCollisions.PlayerMapCollision, Lexaar.MainCla
             raise ValueError("\"multi\" parameter must be between 1 and -1")
 
         if(self.BX + self.speed > 0) :
-
             if(self.LRP[0] + self.speed < scrSize[0]) :
-
                 self.posPerso.x += self.speed * multi
                 if(self.LRP[0] + self.speed < scrSize[0] + 15) :
-                    self.hurtingedge = False
+                    #self.hurtingedge = False
+                    pass
             else :
                 self.teleport(scrSize[0] - (self.posPerso.w + 10), self.BY)
-                self.hurtingedge = True
+                #self.hurtingedge = True
         else :
-
             self.teleport(0, self.BY)
-            self.hurtingedge = True
+            #self.hurtingedge = True
 
     def moveUD(self, multi) :
         """Move Up-Down (multi arg must be between -1 and 1)"""
@@ -149,18 +146,19 @@ class Character_2D(Lexaar_PlayerMapCollisions.PlayerMapCollision, Lexaar.MainCla
             if(self.LLP[1] + self.speed < scrSize[1]) :
                 self.posPerso.y += self.speed * multi
                 if(self.LLP[1] + self.speed < scrSize[1] - 15) :
-                    self.hurtingedge = False
+                    pass
+                    #self.hurtingedge = False
 
                 if(self.BY + self.speed < 15) :
-                    self.hurtingedge = True
-                    console.sysPrint(self.hurtingedge, (255,0,255))
+                    pass
+                    #self.hurtingedge = True
+                    #console.sysPrint(self.hurtingedge, (255,0,255))
             else :
                 self.teleport(self.LLP[0], scrSize[1] - (self.posPerso.h + 10))
-                self.hurtingedge = True
+                #self.hurtingedge = True
         else :
-
             self.teleport(self.BX, 0)
-            self.hurtingedge = True
+            #self.hurtingedge = True
 
     def getPosition(self) :
         """Get X and Y position of the character"""
@@ -169,4 +167,28 @@ class Character_2D(Lexaar_PlayerMapCollisions.PlayerMapCollision, Lexaar.MainCla
 
     def hurtingEdge(self) :
         """If the character touch the edge of the screen it return True else it return False"""
-        return self.hurtingedge
+        if(self.BY + self.speed > 0) :
+            if(self.LLP[1] + self.speed < scrSize[1]) :
+                if(self.LLP[1] + self.speed < scrSize[1] - 15) :
+                    return False
+                    #self.hurtingedge = False
+
+                if(self.BY + self.speed < 15) :
+                    return False
+                    #self.hurtingedge = True
+                    #console.sysPrint(self.hurtingedge, (255,0,255))
+            else :
+                return True
+                #self.hurtingedge = True
+        else :
+            if(self.BX + self.speed > 0) :
+                if(self.LRP[0] + self.speed < scrSize[0]) :
+                    return False
+                    if(self.LRP[0] + self.speed < scrSize[0] + 15) :
+                        #self.hurtingedge = False
+                        return False
+                else :
+                    return True
+                    #self.hurtingedge = True
+            else :
+                return True

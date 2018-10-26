@@ -9,6 +9,8 @@ import time
 import os.path
 import os
 import importlib
+import subprocess
+import Lexaar_Console
 
 class MainClass :
 
@@ -29,6 +31,8 @@ class MainClass :
         self.lib = None
         self.level_event_func_name = None
 
+        self.clock = pygame.time.Clock()
+
     def setName(self, newName) :
         """Set game's name"""
         pygame.display.set_caption(newName)
@@ -39,9 +43,6 @@ class MainClass :
 
         if(self.bckg != 0) :
             Lexaar_global_variable.scr.blit(self.bckg, (0,0))
-            
-        if(self.gamestate == "devel"):
-            Lexaar_global_variable.console.blitMessage()
         for event in pygame.event.get():
             if event.type == QUIT :
                 self.maintenir_process = False
@@ -49,9 +50,8 @@ class MainClass :
             if event.type == KEYDOWN and event.key == K_ESCAPE :
                 self.maintenir_process = False
                 pygame.quit()
-        if len(Lexaar_global_variable.WithoutEvent) != 0 :
-            for i in Lexaar_global_variable.WithoutEvent :
-                Lexaar_global_variable.scr.blit(i[0], (i[1], i[2]))
+
+        self.clock.tick(60)
 
     def backGroundImage(self, pathToImage) :
         """Set background image"""
@@ -99,8 +99,6 @@ class MainClass :
 
         Lexaar_global_variable.AudioMusics = []
         Lexaar_global_variable.AudioSound = []
-        Lexaar_global_variable.WithoutEvent = []
-
         #print(self.level_event_func_name, " ", self.lib)
 
         lvl = open(path, 'r')
@@ -151,7 +149,7 @@ class LFile(MainClass) :
         self.extension = splitext(self.filePath)
         self.extension[1].lower()
 
-        Lexaar_global_variable.console.sysPrint(self.extension[1], (255,0,0))
+        #Lexaar_global_variable.console.sysPrint(self.extension[1], (255,0,0))
 
     def checkExtension(self, extension) :
         """Check file extension"""

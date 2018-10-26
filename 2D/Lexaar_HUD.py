@@ -89,7 +89,7 @@ class Text(Lexaar.MainClass) :
         self.pos = (posX, posY)
         self.size = size
 
-        self.f = open(font, 'r')
+        #self.f = open(font, 'r')
         self.font = pygame.font.Font(font, self.size)
         self.color = textColor
 
@@ -97,3 +97,6 @@ class Text(Lexaar.MainClass) :
 
     def eventLaunch(self) :
         scr.blit(self.renderText, (self.pos[0],self.pos[1]))
+
+    def setText(self, new_text) :
+        self.renderText = self.font.render(new_text, 1, self.color)

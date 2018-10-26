@@ -21,7 +21,7 @@ LFT = 'LEFT'
 direction = 'UP'
 
 #Console
-console = Lexaar_Console.console()
+consolePid = None
 
 #AudioTypes
 MUSIC = 1
@@ -32,12 +32,11 @@ PLAYED_ONCE = 3
 AudioMusics = []
 AudioSound = []
 
-#Thing to blit() without events TO CLEAR BETWEEN TWO LEVELS
-WithoutEvent = []
-
 #Special keys
 Space = 32
 Up_Arrow = 38
 Down_Arrow = 40
 Left_Arrow = 37
 Right_Arrow = 39
+
+#
