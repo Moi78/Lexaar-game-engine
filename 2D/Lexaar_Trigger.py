@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 import Lexaar
 from pygame import*
 from pygame.locals import*

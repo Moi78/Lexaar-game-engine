@@ -2,6 +2,7 @@ import Lexaar
 import Lexaar_global_variable
 import pygame
 from pygame.locals import*
+import time
 
 class image(Lexaar.MainClass) :
     def __init__(self, file, x, y) :
@@ -16,6 +17,9 @@ class image(Lexaar.MainClass) :
 
     def eventLaunch(self) :
         Lexaar_global_variable.scr.blit(self.image, (self.imageX,self.imageY))
+
+    def getImage(self) :
+        return self.image
 
 class Image_Animation(Lexaar.MainClass) :
     def __init__(self, files = tuple(), framerate = 30, x = 0, y = 0) :
@@ -32,12 +36,31 @@ class Image_Animation(Lexaar.MainClass) :
         self.y = y
 
         self.currentImage = image(self.files[0], self.x, self.y)
+        
+        self.timeStart = int(time.time()*1000)
+        self.isPaused = False
 
-    def eventLaunch(self) :
-        pygame.time.delay(int((1/self.framerate)*1000))
-
+    def nextFrame(self) :
         if self.index < self.maxIndex :
             self.currentImage.setImage(self.files[self.index])
             self.index += 1
         else :
             self.index = 0
+
+    def pause(self) :
+        self.isPaused = True
+
+    def unpause(self) :
+        self.isPaused = False
+
+    def eventLaunch(self) :
+        stoptime = int(time.time()*1000)
+        frameTime = int((1/self.framerate)*1000)
+        if stoptime >= self.timeStart + frameTime :
+            if not self.isPaused :
+                self.nextFrame()
+            self.timeStart = int(time.time()*1000)
+        else :
+            pass
+
+        Lexaar_global_variable.scr.blit(self.currentImage.getImage(), (self.x, self.y))

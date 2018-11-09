@@ -55,37 +55,44 @@ class Character_2D(Lexaar.MainClass) :
         scr.blit(self.charaImage, self.posPerso)
         self.rect = 0
 
+        self.blockedFrom = "UP"
+
         #self.hurtingedge = False
 
     def eventLaunch(self) :
         """Event system"""
-        if(win32api.GetAsyncKeyState(self.key_moveUP) != 0) :
+        if(win32api.GetAsyncKeyState(self.key_moveUP) != 0 and self.collideReaction() != True) :
             self.moveUD(-1)
             self.recomputeXandY()
 
             if(self.imgChangeOrientationUP == True) :
                 self.charaImage = pygame.image.load(self.ImgUP).convert_alpha()
             
-        if(win32api.GetAsyncKeyState(self.key_moveDOWN) != 0) :
+        if(win32api.GetAsyncKeyState(self.key_moveDOWN) != 0 and self.collideReaction() != True) :
             self.moveUD(1)
             self.recomputeXandY()
 
             self.charaImage = pygame.image.load(self.ImgDown).convert_alpha()
 
-        if(win32api.GetAsyncKeyState(self.key_moveLEFT) != 0) :
-            self.moveRL(-1)
-            self.recomputeXandY()
-            
-            if(self.imgChangeOrientationLFT == True) :
-                self.charaImage = pygame.image.load(self.ImgLeft).convert_alpha()
+        if(win32api.GetAsyncKeyState(self.key_moveLEFT) != 0 and self.collideReaction() != True) :
+            if self.collideReaction() != True :
+                self.moveRL(-1)
+                self.recomputeXandY()
+                        
+                if(self.imgChangeOrientationLFT == True) :
+                    self.charaImage = pygame.image.load(self.ImgLeft).convert_alpha()
+            else :
+                self.teleport(seld.BX + 10, self.BY)
 
-        if(win32api.GetAsyncKeyState(self.key_moveRIGHT) != 0) :
-            self.moveRL(1)
-            self.recomputeXandY()
-            
-            if(self.imgChangeOrientationRGHT) :
-                self.charaImage = pygame.image.load(self.ImgRight).convert_alpha()
-
+        if(win32api.GetAsyncKeyState(self.key_moveRIGHT) != 0) : 
+            if self.collideReaction() != True :
+                self.moveRL(1)
+                self.recomputeXandY()
+                        
+                if(self.imgChangeOrientationRGHT) :
+                    self.charaImage = pygame.image.load(self.ImgRight).convert_alpha()
+            else :
+                self.teleport(self.BX - 10, self.BY)
         scr.blit(self.charaImage, self.posPerso)
 
     def setSpeed(self, speed) :
@@ -192,3 +199,12 @@ class Character_2D(Lexaar.MainClass) :
                     #self.hurtingedge = True
             else :
                 return True
+
+    def collideReaction(self) :
+        for collider in colliders :
+            tempRect = pygame.Rect(collider[0], (collider[1], collider[2]))
+
+            if(tempRect.colliderect(pygame.Rect(self.BX, self.BY, self.posPerso.width, self.posPerso.height))) :
+                return True
+            else :
+                return False

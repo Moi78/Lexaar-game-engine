@@ -52,6 +52,7 @@ class MainClass :
                 pygame.quit()
 
         self.clock.tick(60)
+        print(self.clock.get_fps())
 
     def backGroundImage(self, pathToImage) :
         """Set background image"""

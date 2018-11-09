@@ -16,6 +16,8 @@ class Body_Rectangle(Lexaar_Trigger.Trigger_2D) :
 
         self.DrawHitbox = debugDraw
 
+        Lexaar_global_variable.colliders.append((self.topl, self.width, self.height))
+
     def eventLaunch(self) :
         if self.DrawHitbox :
             pygame.draw.rect(Lexaar_global_variable.scr, (255,0,255), (self.topl, (self.width, self.height)), 5)
