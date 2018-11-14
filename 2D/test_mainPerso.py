@@ -8,3 +8,4 @@ class MainChara(Character_2D) :
 
     def eventLaunch(self) :
         Character_2D.eventLaunch(self)
+        Character_2D.debug_DrawDefaultCollision(self)

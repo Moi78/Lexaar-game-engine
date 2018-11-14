@@ -16,7 +16,7 @@ class Body_Rectangle(Lexaar_Trigger.Trigger_2D) :
 
         self.DrawHitbox = debugDraw
 
-        Lexaar_global_variable.colliders.append((self.topl, self.width, self.height))
+        Lexaar_global_variable.colliders_Passive.append((self.topl, self.width, self.height))
 
     def eventLaunch(self) :
         if self.DrawHitbox :

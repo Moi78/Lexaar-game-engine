@@ -7,8 +7,10 @@ scr = pygame.display.set_mode((GetSystemMetrics(0),GetSystemMetrics(1)), FULLSCR
 
 scrSize = (GetSystemMetrics(0), GetSystemMetrics(1))
 
-colliders = list()
 
+#Physics & collisions
+colliders_Passive = list()
+colliders_Active = list()
 triggers = list()
 
 

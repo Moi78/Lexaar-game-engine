@@ -55,44 +55,42 @@ class Character_2D(Lexaar.MainClass) :
         scr.blit(self.charaImage, self.posPerso)
         self.rect = 0
 
-        self.blockedFrom = "UP"
+        self.stopMoving = False
 
-        #self.hurtingedge = False
+        colliders_Active.append((self, self.BX, self.BY, self.posPerso.w, self.posPerso.h))
+
+        self.ClassColision = list()
+        self.ClassColision.append((self.BX, self.BY, self.posPerso.w, self.posPerso.h))
 
     def eventLaunch(self) :
         """Event system"""
-        if(win32api.GetAsyncKeyState(self.key_moveUP) != 0 and self.collideReaction() != True) :
+        if(win32api.GetAsyncKeyState(self.key_moveUP) != 0 and self.stopMoving != True) :
             self.moveUD(-1)
             self.recomputeXandY()
 
             if(self.imgChangeOrientationUP == True) :
                 self.charaImage = pygame.image.load(self.ImgUP).convert_alpha()
             
-        if(win32api.GetAsyncKeyState(self.key_moveDOWN) != 0 and self.collideReaction() != True) :
+        if(win32api.GetAsyncKeyState(self.key_moveDOWN) != 0 and self.stopMoving != True) :
             self.moveUD(1)
             self.recomputeXandY()
 
             self.charaImage = pygame.image.load(self.ImgDown).convert_alpha()
 
-        if(win32api.GetAsyncKeyState(self.key_moveLEFT) != 0 and self.collideReaction() != True) :
-            if self.collideReaction() != True :
-                self.moveRL(-1)
-                self.recomputeXandY()
+        if(win32api.GetAsyncKeyState(self.key_moveLEFT) != 0 and self.stopMoving != True) :
+            self.moveRL(-1)
+            self.recomputeXandY()
                         
-                if(self.imgChangeOrientationLFT == True) :
-                    self.charaImage = pygame.image.load(self.ImgLeft).convert_alpha()
-            else :
-                self.teleport(seld.BX + 10, self.BY)
+            if(self.imgChangeOrientationLFT == True) :
+                self.charaImage = pygame.image.load(self.ImgLeft).convert_alpha()
 
-        if(win32api.GetAsyncKeyState(self.key_moveRIGHT) != 0) : 
-            if self.collideReaction() != True :
-                self.moveRL(1)
-                self.recomputeXandY()
+        if(win32api.GetAsyncKeyState(self.key_moveRIGHT) != 0 and self.stopMoving != True) : 
+            self.moveRL(1)
+            self.recomputeXandY()
                         
-                if(self.imgChangeOrientationRGHT) :
-                    self.charaImage = pygame.image.load(self.ImgRight).convert_alpha()
-            else :
-                self.teleport(self.BX - 10, self.BY)
+            if(self.imgChangeOrientationRGHT) :
+                self.charaImage = pygame.image.load(self.ImgRight).convert_alpha()
+
         scr.blit(self.charaImage, self.posPerso)
 
     def setSpeed(self, speed) :
@@ -200,11 +198,14 @@ class Character_2D(Lexaar.MainClass) :
             else :
                 return True
 
-    def collideReaction(self) :
-        for collider in colliders :
-            tempRect = pygame.Rect(collider[0], (collider[1], collider[2]))
+    def SetStopMove(self, value) :
+        self.stopMoving = bool(value)
 
-            if(tempRect.colliderect(pygame.Rect(self.BX, self.BY, self.posPerso.width, self.posPerso.height))) :
-                return True
-            else :
-                return False
+        return bool(value)
+
+    def debug_DrawDefaultCollision(self) :
+
+        pygame.draw.rect(scr, (255,0,255), ((self.BX, self.BY), (self.posPerso.w, self.posPerso.h)), 2)
+
+#    def linkCollision(self, collision_box = tuple()) :
+#        self.ClassColision.append(collision_box)
