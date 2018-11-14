@@ -4,7 +4,7 @@ from pygame.locals import*
 from Lexaar_global_variable import*
 
 class Trigger_2D(Lexaar.MainClass) :
-    def __init__(self, posX, posY, width, height) :
+    def __init__(self, posX, posY, width, height, debugDraw) :
         """Trigger detect movables objects in a defined zone"""
         self.posX = posX
         self.posY = posY
@@ -20,25 +20,15 @@ class Trigger_2D(Lexaar.MainClass) :
 
         triggers.append(self.trigger)
 
+        self.debugDraw = debugDraw
+
     def isCollidingWith(self, collider) :
-        topLeft = self.trigger["topLeft"]
-        topRight = self.trigger["topRight"]
-        bottomLeft = self.trigger["bottomLeft"]
+        selfRect = pygame.Rect((self.posX, self.posY),(self.width, self.height))
 
-        rangeX = (topLeft[0], topRight[0])
-        rangeY = (topLeft[1], bottomLeft[1])
+        if selfRect.colliderect(collider) :
+            return True
+        else :
+            return False
 
-        if(Lexaar.MainClass.isBetween(self, rangeX[0], collider.BX, rangeX[1])) :
-            if(Lexaar.MainClass.isBetween(self, rangeY[0], collider.BY, rangeY[1])) :
-                return True
-            
-        if(Lexaar.MainClass.isBetween(self, rangeX[0], collider.HP[0], rangeX[1])) :
-            if(Lexaar.MainClass.isBetween(self, rangeY[0], collider.HP[1], rangeY[1])) :
-                return True
-        if(Lexaar.MainClass.isBetween(self, rangeX[0], collider.LLP[0], rangeX[1])) :
-            if(Lexaar.MainClass.isBetween(self, rangeY[0], collider.LLP[1], rangeY[1])) :
-                return True
-        if(Lexaar.MainClass.isBetween(self, rangeX[0], collider.LRP[0], rangeX[1])) :
-            if(Lexaar.MainClass.isBetween(self, rangeY[0], collider.LRP[1], rangeY[1])) :
-                return True
-        return False
+    def eventLaunch(self) :
+        pygame.draw.rect(scr, (255,0,255), ((self.posX, self.posY),(self.width, self.height)), 5)

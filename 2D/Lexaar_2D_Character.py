@@ -57,11 +57,6 @@ class Character_2D(Lexaar.MainClass) :
 
         self.stopMoving = False
 
-        colliders_Active.append((self, self.BX, self.BY, self.posPerso.w, self.posPerso.h))
-
-        self.ClassColision = list()
-        self.ClassColision.append((self.BX, self.BY, self.posPerso.w, self.posPerso.h))
-
     def eventLaunch(self) :
         """Event system"""
         if(win32api.GetAsyncKeyState(self.key_moveUP) != 0 and self.stopMoving != True) :
@@ -203,9 +198,6 @@ class Character_2D(Lexaar.MainClass) :
 
         return bool(value)
 
-    def debug_DrawDefaultCollision(self) :
-
-        pygame.draw.rect(scr, (255,0,255), ((self.BX, self.BY), (self.posPerso.w, self.posPerso.h)), 2)
-
-#    def linkCollision(self, collision_box = tuple()) :
-#        self.ClassColision.append(collision_box)
+class Character_2D_Animated(Character_2D) :
+    def __init__(self) :
+        pass
