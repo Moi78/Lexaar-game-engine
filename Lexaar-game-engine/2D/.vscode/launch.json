@@ -8,7 +8,7 @@
             "name": "Python: Current File (Integrated Terminal)",
             "type": "python",
             "request": "launch",
-            "program": "C:/Users/mathi/Desktop/Lexaar/Lexaar-game-engine/2D/main.py",
+            "program": "C:/Users/mathi/Desktop/Lexaar/Lexaar-game-engine/Lexaar-game-engine/2D/main.py",
             "console": "integratedTerminal"
         },
         {
